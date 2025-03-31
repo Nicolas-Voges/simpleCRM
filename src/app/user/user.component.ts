@@ -12,6 +12,7 @@ import {
   // MatDialogTitle,
 } from '@angular/material/dialog';
 import { DialogAddUserComponent } from '../dialog-add-user/dialog-add-user.component';
+import { User } from '../models/user.class';
 
 @Component({
   selector: 'app-user',
@@ -23,6 +24,8 @@ export class UserComponent {
   readonly text = signal('');
   readonly name = model('');
   readonly dialog = inject(MatDialog);
+
+  // user = new User();
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogAddUserComponent, {
@@ -36,17 +39,4 @@ export class UserComponent {
       }
     });
   }
-  
-  // openDialog() {
-  //   const dialogRef = this.dialog.open(DialogAddUserComponent, {
-  //     data: {name: this.name(), text: this.text()});
-
-  //     dialogRef.afterClosed().subscribe(result => {
-  //       console.log('The dialog was closed');
-  //       if (result !== undefined) {
-  //         this.text.set(result);
-  //       }
-  //     });
-  // }
-  
 }
