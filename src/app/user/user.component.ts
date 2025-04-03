@@ -12,11 +12,12 @@ import {
   // MatDialogTitle,
 } from '@angular/material/dialog';
 import { DialogAddUserComponent } from '../dialog-add-user/dialog-add-user.component';
-import { User } from '../models/user.class';
+import { AsyncPipe } from '@angular/common';
+import { FirebaseService } from '../services/firebase.service';
 
 @Component({
   selector: 'app-user',
-  imports: [MatButtonModule, MatIconModule, MatTooltipModule],
+  imports: [MatButtonModule, MatIconModule, MatTooltipModule, AsyncPipe],
   templateUrl: './user.component.html',
   styleUrl: './user.component.scss'
 })
@@ -25,7 +26,7 @@ export class UserComponent {
   readonly name = model('');
   readonly dialog = inject(MatDialog);
 
-  // user = new User();
+  constructor(public firebase: FirebaseService) { }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogAddUserComponent, {

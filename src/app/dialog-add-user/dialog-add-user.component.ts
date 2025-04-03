@@ -4,9 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import {
   MAT_DIALOG_DATA,
-  MatDialog,
   MatDialogActions,
-  MatDialogClose,
   MatDialogContent,
   MatDialogRef,
   MatDialogTitle,
@@ -16,6 +14,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { User } from '../models/user.class';
+import { FirebaseService } from '../services/firebase.service';
 
 @Component({
   selector: 'app-dialog-add-user',
@@ -28,7 +27,6 @@ import { User } from '../models/user.class';
     MatDialogTitle,
     MatDialogContent,
     MatDialogActions,
-    MatDialogClose,
     MatIconModule,
     MatDatepickerModule,
     FormsModule
@@ -44,6 +42,9 @@ export class DialogAddUserComponent {
 
   user = new User();
 
+  // constructor(public firebase: FirebaseService) { }
+  firestore = inject(FirebaseService);
+
   onNoClick(): void {
     this.dialogRef.close();
   }
@@ -51,5 +52,6 @@ export class DialogAddUserComponent {
   saveUser() {
     this.user.birthDate = this.birthDate.getTime();
     console.log('Current User: ', this.user);
+    this.firestore.addUser(this.user.toJSON());
   }
 }

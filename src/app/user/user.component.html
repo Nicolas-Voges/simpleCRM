@@ -1,4 +1,26 @@
 <p>user works!</p>
-<button (click)="openDialog()" class="btn-add-user" mat-fab #tooltip="matTooltip" matTooltip="Add user" [matTooltipPosition]="'above'" matTooltipHideDelay="1000">
+<button (click)="openDialog()" class="btn-add-user" mat-fab #tooltip="matTooltip" matTooltip="Add user"
+    [matTooltipPosition]="'above'" matTooltipHideDelay="1000">
     <mat-icon>add</mat-icon>
 </button>
+<ul>
+    @for (item of (firebase.item$| async); track item) {
+    <li>
+        {{ item['name'] }}
+    </li>
+    <!-- <div>
+        @for (message of item['messages']; track $index) {
+            <h2>{{ message['user'] }}</h2>
+            <p>{{ message['content'] }}</p>
+            <p>{{ message['time'] }}</p>
+
+            @for (answer of message['answers']; track $index) {
+                <h3>{{ answer['user'] }}</h3>
+                <p>{{ answer['content'] }}</p>
+                <p>{{ answer['time'] }}</p>
+            }
+
+        }
+    </div> -->
+    }
+</ul>
