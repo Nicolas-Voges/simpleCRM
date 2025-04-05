@@ -1,0 +1,28 @@
+@use '@angular/material' as mat;
+
+.header {
+    min-height: 250px;
+    background-color: var(--mat-sys-tertiary);
+    color: var(--mat-sys-on-tertiary);
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+
+    .profile-photo {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        object-position: center;
+    }
+
+    h2 {
+        margin-bottom: 0;
+    }
+
+    .info-text-box {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        min-height: 100px;
+    }
+}

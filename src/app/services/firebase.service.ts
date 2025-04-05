@@ -1,24 +1,43 @@
-import { Injectable, inject } from '@angular/core';
-import { Firestore, collectionData, collection, doc, addDoc } from '@angular/fire/firestore';
+import { Injectable, OnDestroy, inject } from '@angular/core';
+import { Firestore, collectionData, collection, doc, addDoc, onSnapshot } from '@angular/fire/firestore';
 import { User } from '../models/user.class';
 
 @Injectable({
   providedIn: 'root'
 })
-export class FirebaseService {
+export class FirebaseService implements OnDestroy {
   firestore = inject(Firestore);
   itemCollection = collection(this.firestore, 'users');
   item$ = collectionData(this.itemCollection);
+  loading = false;
+  users: User[] = [];
+  unsubUser;
+
   constructor() {
-    console.log(this.item$);
+    this.unsubUser = onSnapshot(this.getUsersRef(), (list) => {
+      this.users = [];
+      list.forEach((doc) => {
+        this.convertToUser(doc.data(), doc.id);
+      });
+      console.log(this.users);
+    });
+  }
+
+
+  convertToUser(obj: {}, id: string) {
+    let user = new User(obj, id);
+    this.users.push(user);
   }
 
   async addUser(user: {}) {
     await addDoc(this.getUsersRef(), user).catch(
-      (err) => {console.error(err)
+      (err) => {
+        console.error(err);
+        this.loading = false;
       }
     ).then(
-      (docRef) => { console.log('Doc Id: ', docRef);
+      (docRef) => {
+        this.loading = false;
       }
     );
   }
@@ -31,7 +50,11 @@ export class FirebaseService {
     return collection(this.firestore, 'channels');
   }
 
-  getDocReft(colId: string, docId: string) {
+  getDocRef(colId: string, docId: string) {
     return doc(collection(this.firestore, colId), docId);
+  }
+
+  ngOnDestroy(): void {
+    this.unsubUser();
   }
 }

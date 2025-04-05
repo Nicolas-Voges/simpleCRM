@@ -14,10 +14,13 @@ import {
 import { DialogAddUserComponent } from '../dialog-add-user/dialog-add-user.component';
 import { AsyncPipe } from '@angular/common';
 import { FirebaseService } from '../services/firebase.service';
+import { MatCardModule } from '@angular/material/card';
+import { RouterLink } from '@angular/router';
+
 
 @Component({
   selector: 'app-user',
-  imports: [MatButtonModule, MatIconModule, MatTooltipModule, AsyncPipe],
+  imports: [MatButtonModule, MatIconModule, MatTooltipModule, AsyncPipe, MatCardModule, RouterLink],
   templateUrl: './user.component.html',
   styleUrl: './user.component.scss'
 })
@@ -25,6 +28,7 @@ export class UserComponent {
   readonly text = signal('');
   readonly name = model('');
   readonly dialog = inject(MatDialog);
+  // public firebase = inject(FirebaseService);
 
   constructor(public firebase: FirebaseService) { }
 
@@ -34,7 +38,6 @@ export class UserComponent {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
       if (result !== undefined) {
         this.text.set(result);
       }
