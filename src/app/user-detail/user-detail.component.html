@@ -1,4 +1,10 @@
 <mat-card appearance="outlined">
+    <button [matMenuTriggerFor]="headerMenu" mat-icon-button class="btn-menu btn-header">
+        <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu xPosition="before" #headerMenu="matMenu">
+        <button mat-menu-item (click)="openUserDialog()">Edit</button>
+    </mat-menu>
     <mat-card-content class="header">
         <img class="profile-photo" src="img/photo.png" alt="photo">
         <div class="info-text-box">
@@ -7,8 +13,14 @@
         </div>
     </mat-card-content>
 </mat-card>
-<mat-card appearance="outlined" class="address-box">
+<mat-card appearance="outlined" class="address-box position-relative">
     <mat-card-content>
+        <button [matMenuTriggerFor]="addressMenu" mat-icon-button class="btn-menu">
+            <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu xPosition="before" #addressMenu="matMenu">
+            <button mat-menu-item (click)="openAddressDialog()">Edit</button>
+        </mat-menu>
         <mat-card-title>Address</mat-card-title>
         <p>{{ firestore.user?.street }}</p>
         <p>{{ firestore.user?.zipCode }} {{ firestore.user?.city }}</p>

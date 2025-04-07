@@ -1,7 +1,7 @@
 import { Component, inject, model } from '@angular/core';
+import { FirebaseService } from '../services/firebase.service';
 import { FormsModule } from '@angular/forms';
 import { User } from '../models/user.class';
-import { FirebaseService } from '../services/firebase.service';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -14,15 +14,11 @@ import {
 } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
-
 @Component({
-  selector: 'app-dialog-add-user',
-  providers: [provideNativeDateAdapter()],
-  imports: [[
+  selector: 'app-dialog-edit-address',
+  imports: [
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
@@ -31,33 +27,34 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatDialogContent,
     MatDialogActions,
     MatIconModule,
-    MatDatepickerModule,
     MatProgressBarModule,
     CommonModule
-  ]],
-  templateUrl: './dialog-add-user.component.html',
-  styleUrl: './dialog-add-user.component.scss'
+  ],
+  templateUrl: './dialog-edit-address.component.html',
+  styleUrl: './dialog-edit-address.component.scss'
 })
-export class DialogAddUserComponent {
-  readonly dialogRef = inject(MatDialogRef<DialogAddUserComponent>);
+export class DialogEditAddressComponent {
+  readonly dialogRef = inject(MatDialogRef<DialogEditAddressComponent>);
   readonly data = inject<any>(MAT_DIALOG_DATA);
   readonly text = model(this.data.text);
-  birthDate: Date = new Date();
-
-  user = new User();
-
-  // constructor(public firebase: FirebaseService) { }
   firestore = inject(FirebaseService);
+  user: User;
+
+  constructor() {
+    if (this.firestore.user != undefined) {
+      this.user = new User(this.firestore.user.toJSON(), this.firestore.user.id);
+    } else {
+      this.user = new User();
+    }
+  }
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 
-  saveUser() {
+  async saveUser() {
     this.firestore.loading = true;
-    this.user.birthDate = this.birthDate.getTime();
-    console.log('Current User: ', this.user);
-    this.firestore.addUser(this.user.toJSON());
+    await this.firestore.updateUser(this.user);
     this.dialogRef.close();
   }
 }

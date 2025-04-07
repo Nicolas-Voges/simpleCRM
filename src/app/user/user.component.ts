@@ -12,7 +12,7 @@ import {
   // MatDialogTitle,
 } from '@angular/material/dialog';
 import { DialogAddUserComponent } from '../dialog-add-user/dialog-add-user.component';
-import { AsyncPipe } from '@angular/common';
+// import { AsyncPipe } from '@angular/common';
 import { FirebaseService } from '../services/firebase.service';
 import { MatCardModule } from '@angular/material/card';
 import { RouterLink } from '@angular/router';
@@ -20,7 +20,7 @@ import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-user',
-  imports: [MatButtonModule, MatIconModule, MatTooltipModule, AsyncPipe, MatCardModule, RouterLink],
+  imports: [MatButtonModule, MatIconModule, MatTooltipModule, MatCardModule, RouterLink],
   templateUrl: './user.component.html',
   styleUrl: './user.component.scss'
 })

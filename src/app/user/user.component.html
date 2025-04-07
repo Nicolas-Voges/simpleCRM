@@ -7,11 +7,11 @@
                 <th>Email</th>
             </tr>
             @for (user of firebase.users; track $index) {
-            <tr routerLink="/user/{{ user.id }}">
-                <td>{{ user.firstName }} {{ user.lastName }}</td>
-                <td>{{ user.city }}</td>
-                <td>{{ user.email }}</td>
-            </tr>
+                <tr routerLink="/user/{{ user.id }}">
+                    <td>{{ user.firstName }} {{ user.lastName }}</td>
+                    <td>{{ user.city }}</td>
+                    <td>{{ user.email }}</td>
+                </tr>
             }
         </table>
     </mat-card-content>

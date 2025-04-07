@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy, inject } from '@angular/core';
-import { Firestore, collectionData, collection, doc, addDoc, onSnapshot, Unsubscribe } from '@angular/fire/firestore';
+import { Firestore, collectionData, collection, doc, addDoc, onSnapshot, Unsubscribe, updateDoc } from '@angular/fire/firestore';
 import { User } from '../models/user.class';
 
 @Injectable({
@@ -11,7 +11,7 @@ export class FirebaseService implements OnDestroy {
   item$ = collectionData(this.itemCollection);
   loading = false;
   users: User[] = [];
-  user: User | undefined;  
+  public user: User | undefined;
   unsubUsers;
   unsubUser: Unsubscribe | undefined;
 
@@ -21,6 +21,8 @@ export class FirebaseService implements OnDestroy {
       list.forEach((doc) => {
         this.convertToUser(doc.data(), doc.id);
       });
+      console.log(this.users);
+
     });
   }
 
@@ -48,6 +50,13 @@ export class FirebaseService implements OnDestroy {
     );
   }
 
+  async updateUser(user: User) {
+    if (user.id) {
+      await updateDoc(this.getDocRef('users', user.id), user.toJSON());
+    }
+    this.loading = false;
+  }
+
   getUsersRef() {
     return collection(this.firestore, 'users');
   }
@@ -62,8 +71,5 @@ export class FirebaseService implements OnDestroy {
 
   ngOnDestroy(): void {
     this.unsubUsers();
-    if (this.unsubUser != undefined) {
-      this.unsubUser();
-    }
   }
 }
