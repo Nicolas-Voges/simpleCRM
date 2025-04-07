@@ -2,8 +2,15 @@
     <mat-card-content class="header">
         <img class="profile-photo" src="img/photo.png" alt="photo">
         <div class="info-text-box">
-            <h2>Max Musterman</h2>
-            <p>m&#64;xmuster.mann</p>
+            <h2>{{ firestore.user?.firstName }} {{ firestore.user?.lastName }}</h2>
+            <p>{{ firestore.user?.email }}</p>
         </div>
+    </mat-card-content>
+</mat-card>
+<mat-card appearance="outlined" class="address-box">
+    <mat-card-content>
+        <mat-card-title>Address</mat-card-title>
+        <p>{{ firestore.user?.street }}</p>
+        <p>{{ firestore.user?.zipCode }} {{ firestore.user?.city }}</p>
     </mat-card-content>
 </mat-card>

@@ -8,21 +8,26 @@
     align-items: flex-end;
     gap: 16px;
 
-    .profile-photo {
-        width: 100px;
-        height: 100px;
-        object-fit: cover;
-        object-position: center;
-    }
-
     h2 {
         margin-bottom: 0;
     }
+}
 
-    .info-text-box {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        min-height: 100px;
-    }
+.profile-photo {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    object-position: center;
+}
+
+.info-text-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100px;
+}
+
+.address-box {
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
 }
